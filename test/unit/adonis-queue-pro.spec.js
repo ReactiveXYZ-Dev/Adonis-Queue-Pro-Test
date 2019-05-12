@@ -53,9 +53,51 @@ test('run job with errors', async ({ assert }) => {
   assert.equal(res, "Failed to process job JobWithErrors! (err msg: TEST ERROR)");
 }).timeout(0);
 
-// test('run and remove job with a schedule', async ({ assert }) => {
-//   // TODO
-// });
+test('run and remove job with a schedule', async ({ assert }) => {
+  // schedule job in the future
+  let job = new SyncJob({ 'testInput': 200 });
+  Queue.dispatch(job, '2 seconds from now');
+
+  const startTime = new Date();
+
+  const res = await new Promise(resolve => {
+    job.on('complete', data => {
+      const elapsed = new Date() - startTime;
+      resolve({
+        data, elapsed
+      });
+    });
+  }); 
+
+  assert.equal(res.data, 55 + 200);
+  assert.isAbove(res.elapsed, 2000);
+
+  // schedule repeated jobs
+  job = new ScheduledJob({ 'testInput': 200 });
+  Queue.dispatch(job, 'every 2 seconds');
+
+  console.log("Scheduling jobs...")
+  const jobId = await new Promise(resolve => job.on('init', jobId => { resolve(jobId); } ));
+  let count = 3;
+  await new Promise(resolve => {
+    job.on('complete', res => {
+      assert.equal(res, 55 + 200);
+      count -= 1;
+      if (count == 0) {
+        // remove job
+        Queue.remove(jobId).then(resolve);
+      }
+    });
+  });
+  console.log("Jobs should be removed, checking further signals...")
+  // make sure no more job completions are called
+  await new Promise(resolve => {
+    setTimeout(resolve, 5000);
+  });
+
+  assert.equal(count, 0);
+
+}).timeout(0);
 
 // test('job event listeners', async ({ assert }) => {
 //   // TODO
