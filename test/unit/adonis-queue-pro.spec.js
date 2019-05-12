@@ -50,7 +50,7 @@ test('run job with errors', async ({ assert }) => {
   const res = await new Promise(resolve => {
     job.on('failed', e => resolve(e));
   });
-  assert.equal(res, "Failed to process job JobWithErrors! (err msg: TEST ERROR)");
+  assert.equal(res, "Failed to process job JobWithErrors! (src err: TEST ERROR)");
 }).timeout(0);
 
 test('run and remove job with a schedule', async ({ assert }) => {
