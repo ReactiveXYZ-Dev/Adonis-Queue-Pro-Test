@@ -1,5 +1,6 @@
 'use strict';
 
+const { testSync } = use("App/Utils");
 
 /**
  * Sample job consumer class
@@ -41,12 +42,8 @@ class SyncJob {
      * Handle the sending of email data
      * You can remove the async keyword if it is synchronous
      */
-    async handle() {
-
-        // Execute your task here...
-
-        await result;
-        // return result;
+    handle() {
+        return testSync() + this.data['testInput'];
     }
 
 

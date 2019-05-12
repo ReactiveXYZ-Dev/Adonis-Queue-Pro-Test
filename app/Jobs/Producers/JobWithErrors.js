@@ -44,7 +44,7 @@ class JobWithErrors extends EventEmitter {
      * @return {Int}
      */
     get attempts() {
-        return 3;
+        return 1;
     }
 
     /**
@@ -85,8 +85,10 @@ class JobWithErrors extends EventEmitter {
      * @param  {Error} e Error created from the consumer's handle() method
      * @return {Void}
      */
-    onFail(e) {
+    onFailed(e) {
         console.log(e.message);
+
+        this.emit('failed', e);
     }
 
 }

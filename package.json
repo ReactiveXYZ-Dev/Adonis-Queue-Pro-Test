@@ -27,7 +27,7 @@
     "@adonisjs/session": "^1.0.27",
     "@adonisjs/shield": "^1.0.8",
     "@adonisjs/vow": "^1.0.17",
-    "adonis-queue-pro": "file:../../Adonis-Queue-Pro/adonis-queue-pro-2.0.0.tgz"
+    "adonis-queue-pro": "file:../Adonis-Queue-Pro/adonis-queue-pro-2.0.0.tgz"
   },
   "devDependencies": {},
   "autoload": {

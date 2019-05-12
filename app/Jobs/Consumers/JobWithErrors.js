@@ -41,12 +41,8 @@ class JobWithErrors {
      * Handle the sending of email data
      * You can remove the async keyword if it is synchronous
      */
-    async handle() {
-
-        // Execute your task here...
-
-        await result;
-        // return result;
+    handle() {
+        throw new Error("TEST ERROR");
     }
 
 

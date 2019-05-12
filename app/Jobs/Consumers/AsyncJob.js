@@ -1,5 +1,6 @@
 'use strict';
 
+const { testAsync } = use("App/Utils");
 
 /**
  * Sample job consumer class
@@ -42,11 +43,9 @@ class AsyncJob {
      * You can remove the async keyword if it is synchronous
      */
     async handle() {
-
-        // Execute your task here...
-
-        await result;
-        // return result;
+        
+        const res = await testAsync();
+        return res + this.data['testInput'];
     }
 
 
