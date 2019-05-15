@@ -18,6 +18,17 @@ class AsyncJob {
     static get concurrency() {
         return 1;
     }
+    /**
+     * Inject the kue ctx to the consumer, you can use it to
+     * pause(), shutdown() or remove() handler actions.
+     * See kue's doc for more details
+     * @param  {Object} data
+     *
+     * DO NOT MODIFY!
+     */
+    setContext(ctx) {
+      this.ctx = ctx;
+    }
 
     /**
      * UUID for this job class

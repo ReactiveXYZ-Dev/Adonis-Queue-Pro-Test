@@ -38,6 +38,18 @@ class JobWithErrors {
     }
 
     /**
+     * Inject the kue ctx to the consumer, you can use it to
+     * pause(), shutdown() or remove() handler actions.
+     * See kue's doc for more details
+     * @param  {Object} data
+     *
+     * DO NOT MODIFY!
+     */
+    setContext(ctx) {
+      this.ctx = ctx;
+    }
+
+    /**
      * Handle the sending of email data
      * You can remove the async keyword if it is synchronous
      */

@@ -55,7 +55,8 @@ test('run job with errors', async ({ assert }) => {
 
 test('run and remove job with a schedule', async ({ assert }) => {
   // schedule job in the future
-  let job = new SyncJob({ 'testInput': 200 });
+  let job;
+  job = new SyncJob({ 'testInput': 200 });
   Queue.dispatch(job, '2 seconds from now');
 
   const startTime = new Date();
@@ -73,6 +74,7 @@ test('run and remove job with a schedule', async ({ assert }) => {
   assert.isAbove(res.elapsed, 2000);
 
   // schedule repeated jobs
+  console.log("About to Scheduling jobs...")
   job = new ScheduledJob({ 'testInput': 200 });
   Queue.dispatch(job, 'every 2 seconds');
 
@@ -85,7 +87,10 @@ test('run and remove job with a schedule', async ({ assert }) => {
       count -= 1;
       if (count == 0) {
         // remove job
-        Queue.remove(jobId).then(resolve);
+        Queue.remove(jobId).then(
+          resolve,
+          err => console.error("Cannot remove", err)
+        );
       }
     });
   });
@@ -99,6 +104,3 @@ test('run and remove job with a schedule', async ({ assert }) => {
 
 }).timeout(0);
 
-// test('job event listeners', async ({ assert }) => {
-//   // TODO
-// });
