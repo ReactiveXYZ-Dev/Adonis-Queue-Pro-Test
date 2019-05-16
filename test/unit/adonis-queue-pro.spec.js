@@ -81,15 +81,19 @@ test('run and remove job with a schedule', async ({ assert }) => {
   console.log("Scheduling jobs...")
   const jobId = await new Promise(resolve => job.on('init', jobId => { resolve(jobId); } ));
   let count = 3;
-  await new Promise(resolve => {
+  await new Promise((resolve, reject) => {
     job.on('complete', res => {
       assert.equal(res, 55 + 200);
       count -= 1;
       if (count == 0) {
         // remove job
-        Queue.remove(jobId).then(
+        console.log("Removing job id ", jobId);
+        Queue.remove(job).then(
           resolve,
-          err => console.error("Cannot remove", err)
+          err => {
+            console.error("Cannot remove", err);
+            reject(err);
+          }
         );
       }
     });

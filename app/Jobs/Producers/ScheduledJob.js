@@ -52,7 +52,7 @@ class ScheduledJob extends EventEmitter {
      * @return {Boolean}
      */
     get unique() {
-        return false;
+        return true;
     }
 
     /**
